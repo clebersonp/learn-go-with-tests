@@ -1,4 +1,4 @@
-package bitcoins
+package pointers
 
 import (
 	"errors"
