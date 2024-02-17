@@ -57,3 +57,17 @@ func TestSumAll(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestSumAllWithAppend(t *testing.T) {
+	got := SumAllWithAppend([]int{4, 1, 3}, []int{5, 8})
+	want := []int{8, 13}
+
+	// Go does not let you use equality operators (!=) with slices.
+	// You could write a function to iterate over each got and want slice and check their values
+	// but for convenience’s sake, we can use reflect.DeepEqual function which is useful for seeing
+	// if any two variables are the same
+	// It's important to note that reflect.DeepEqual is not "type safe"
+	if !slices.Equal(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}

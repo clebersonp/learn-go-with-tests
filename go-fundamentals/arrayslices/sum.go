@@ -30,3 +30,14 @@ func SumAll(slicesToSum ...[]int) []int {
 	}
 	return sums
 }
+
+// SumAllWithAppend - Go can let you write 'variadic function' that can take a variable number of arguments.
+func SumAllWithAppend(slicesToSum ...[]int) []int {
+	var sums []int
+	for _, slice := range slicesToSum {
+		// In this implementation, we are worrying less about capacity.
+		// We start with an empty slice sums and append to it the result of Sum as we work through the varargs.
+		sums = append(sums, SumSlice(slice))
+	}
+	return sums
+}
