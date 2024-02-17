@@ -1,7 +1,7 @@
 package arrayslices
 
 import (
-	"reflect"
+	"slices"
 	"testing"
 )
 
@@ -53,7 +53,7 @@ func TestSumAll(t *testing.T) {
 	// but for convenience’s sake, we can use reflect.DeepEqual function which is useful for seeing
 	// if any two variables are the same
 	// It's important to note that reflect.DeepEqual is not "type safe"
-	if !reflect.DeepEqual(got, want) {
+	if !slices.Equal(got, want) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
