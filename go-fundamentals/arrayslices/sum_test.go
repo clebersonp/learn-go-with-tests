@@ -2,6 +2,22 @@ package arrayslices
 
 import "testing"
 
+// Go's built-in testing toolkit features a coverage tool. In terminal type and enter: go test -v -cover
+
+func assertion(t testing.TB, got, want int, given [5]int) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %d want %d given %v", got, want, given)
+	}
+}
+
+func assertionSlice(t testing.TB, got, want int, given []int) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %d want %d given %v", got, want, given)
+	}
+}
+
 func TestSum(t *testing.T) {
 	t.Run("collection of 5 numbers", func(t *testing.T) {
 		// arrays have a fixed capacity
@@ -14,12 +30,13 @@ func TestSum(t *testing.T) {
 		want := 15
 		assertion(t, got, want, numbers)
 	})
-
 }
 
-func assertion(t testing.TB, got, want int, given [5]int) {
-	t.Helper()
-	if got != want {
-		t.Errorf("got %d want %d given %v", got, want, given)
-	}
+func TestSumSlice(t *testing.T) {
+	t.Run("collection of 3 size with slices", func(t *testing.T) {
+		numbers := []int{1, 2, 3}
+		got := SumSlice(numbers)
+		want := 6
+		assertionSlice(t, want, got, numbers)
+	})
 }

@@ -10,3 +10,11 @@ func Sum(numbers [5]int) (result int) {
 	}
 	return
 }
+
+// SumSlice - we don't user numbers or '...' operator when we declare a slice, we give an empty size
+func SumSlice(numbers []int) (result int) {
+	for _, num := range numbers {
+		result += num
+	}
+	return
+}
