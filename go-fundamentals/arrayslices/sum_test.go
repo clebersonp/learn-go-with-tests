@@ -71,3 +71,36 @@ func TestSumAllWithAppend(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestSumAllTails(t *testing.T) {
+
+	// assigning a function to a variable
+	// it's no different to assigning a variable to a string, or an int, functions in effect are values too
+	checkSums := func(t testing.TB, got []int, want []int) {
+		t.Helper()
+		if !slices.Equal(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+	}
+
+	t.Run("sum all tails with more than one element each", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2}, []int{0, 9})
+		want := []int{2, 9}
+		checkSums(t, got, want)
+	})
+	t.Run("sum all tails with one element each", func(t *testing.T) {
+		got := SumAllTails([]int{1}, []int{0})
+		want := []int{0, 0}
+		checkSums(t, got, want)
+	})
+	t.Run("sum all tails with at least one empty slice", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{7}, nil)
+		want := []int{0, 0, 0}
+		checkSums(t, got, want)
+	})
+	t.Run("sum all tails with sort number elements each slice", func(t *testing.T) {
+		got := SumAllTails([]int{4, 7, 3}, []int{3}, []int{8, 1}, []int{9, 5, 3, 0}, []int{})
+		want := []int{10, 0, 1, 8, 0}
+		checkSums(t, got, want)
+	})
+}

@@ -41,3 +41,16 @@ func SumAllWithAppend(slicesToSum ...[]int) []int {
 	}
 	return sums
 }
+
+func SumAllTails(slicesToSumTails ...[]int) []int {
+	var sumTails []int
+	for _, slice := range slicesToSumTails {
+		if len(slice) == 0 {
+			sumTails = append(sumTails, 0)
+		} else {
+			tails := slice[1:]
+			sumTails = append(sumTails, SumSlice(tails))
+		}
+	}
+	return sumTails
+}
