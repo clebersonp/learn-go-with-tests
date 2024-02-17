@@ -4,8 +4,13 @@ import "fmt"
 
 // in terminal: go run .    or     go run hello.go
 
+const englishHelloPrefix = "Hello, "
+
 func hello(name string) string {
-	return "Hello, " + name // -> the "domain"
+	if name == "" {
+		name = "World"
+	}
+	return englishHelloPrefix + name // -> the "domain"
 }
 
 func main() {
