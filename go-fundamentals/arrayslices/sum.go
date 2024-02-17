@@ -18,3 +18,8 @@ func SumSlice(numbers []int) (result int) {
 	}
 	return
 }
+
+// SumAll - Go can let you write 'variadic function' that can take a variable number of arguments.
+func SumAll(numbers ...[]int) []int {
+	return nil
+}

@@ -1,6 +1,9 @@
 package arrayslices
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 // Go's built-in testing toolkit features a coverage tool. In terminal type and enter: go test -v -cover
 
@@ -39,4 +42,18 @@ func TestSumSlice(t *testing.T) {
 		want := 6
 		assertionSlice(t, want, got, numbers)
 	})
+}
+
+func TestSumAll(t *testing.T) {
+	got := SumAll([]int{1, 2}, []int{0, 9})
+	want := []int{3, 9}
+
+	// Go does not let you use equality operators (!=) with slices.
+	// You could write a function to iterate over each got and want slice and check their values
+	// but for convenience’s sake, we can use reflect.DeepEqual function which is useful for seeing
+	// if any two variables are the same
+	// It's important to note that reflect.DeepEqual is not "type safe"
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
 }
