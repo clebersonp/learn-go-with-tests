@@ -5,26 +5,41 @@ import "fmt"
 // in terminal: go run .    or     go run hello.go
 
 const (
-	englishHelloPrefix = "Hello, "
-	spanishHelloPrefix = "Hola, "
-	frenchHelloPrefix  = "Bonjour, "
-	world              = "World"
-	spanish            = "Spanish"
-	french             = "French"
-	emptyStr           = ""
+	// utilities
+	emptyStr = ""
+	world    = "World"
+
+	// languages
+	spanish    = "Spanish"
+	french     = "French"
+	portuguese = "Portuguese"
+
+	// prefixes
+	englishHelloPrefix    = "Hello, "
+	spanishHelloPrefix    = "Hola, "
+	frenchHelloPrefix     = "Bonjour, "
+	portugueseHelloPrefix = "Olá, "
 )
 
-func hello(name, language string) string {
+func hello(name, language string) (greetings string) {
 	if name == emptyStr {
 		name = world
 	}
-	if language == spanish {
-		return fmt.Sprint(spanishHelloPrefix, name)
+	return fmt.Sprint(greetingPrefix(language), name) // -> the "domain"
+}
+
+func greetingPrefix(language string) (prefix string) {
+	switch language {
+	case french:
+		prefix = frenchHelloPrefix
+	case spanish:
+		prefix = spanishHelloPrefix
+	case portuguese:
+		prefix = portugueseHelloPrefix
+	default:
+		prefix = englishHelloPrefix
 	}
-	if language == french {
-		return fmt.Sprint(frenchHelloPrefix, name)
-	}
-	return fmt.Sprint(englishHelloPrefix, name) // -> the "domain"
+	return // will return the prefix value declared as 'named return value'
 }
 
 func main() {
