@@ -48,6 +48,7 @@ func SumAllTails(slicesToSumTails ...[]int) []int {
 		if len(slice) == 0 {
 			sumTails = append(sumTails, 0)
 		} else {
+			// slicing a slice
 			tails := slice[1:]
 			sumTails = append(sumTails, SumSlice(tails))
 		}
