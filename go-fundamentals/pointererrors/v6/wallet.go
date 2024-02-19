@@ -5,8 +5,9 @@ import (
 	"fmt"
 )
 
-// Bitcoin is a custom type from existing int type.
-// It's more descriptive
+// ErrInsufficientFunds use the 'var' keyword. It allows us to define values global to the package level
+var ErrInsufficientFunds = errors.New("cannot withdraw, insufficient funds")
+
 type Bitcoin int
 
 func (b Bitcoin) String() string {
@@ -28,7 +29,7 @@ func (w *Wallet) Balance() Bitcoin {
 func (w *Wallet) WithDraw(amount Bitcoin) error {
 	if amount > w.balance {
 		// errors.New creates a new error with a custom message
-		return errors.New("cannot withdraw, insufficient funds")
+		return ErrInsufficientFunds
 	}
 
 	w.balance -= amount

@@ -5,30 +5,6 @@ import (
 )
 
 func TestWallet(t *testing.T) {
-
-	assertError := func(t testing.TB, got error, want string) {
-		t.Helper()
-		// nil is synonymous with null from other programming languages.
-		// and it can be nil because it's an error interface.
-		// interface in Go can be nil
-		if got == nil {
-			// fatal will stop the test if it's called.
-			t.Fatal("wanted an error but didnt' get one")
-		}
-
-		if got.Error() != want {
-			t.Errorf("got %q want %q", got.Error(), want)
-		}
-	}
-
-	assertBalance := func(t testing.TB, wallet Wallet, want Bitcoin) {
-		t.Helper()
-		got := wallet.Balance()
-		if got != want {
-			t.Errorf("got %q want %q", got, want)
-		}
-	}
-
 	t.Run("deposit", func(t *testing.T) {
 		wallet := Wallet{}
 		wallet.Deposit(Bitcoin(10))
@@ -44,7 +20,30 @@ func TestWallet(t *testing.T) {
 		wallet := Wallet{balance: startingBalance}
 		// in Go to indicate an error it is idiomatic to function return an err to check and act on.
 		err := wallet.WithDraw(Bitcoin(15))
-		assertError(t, err, "cannot withdraw, insufficient funds")
+		assertError(t, err, ErrInsufficientFunds.Error())
 		assertBalance(t, wallet, startingBalance)
 	})
+}
+
+func assertBalance(t testing.TB, wallet Wallet, want Bitcoin) {
+	t.Helper()
+	got := wallet.Balance()
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
+}
+
+func assertError(t testing.TB, got error, want string) {
+	t.Helper()
+	// nil is synonymous with null from other programming languages.
+	// and it can be nil because it's an error interface.
+	// interface in Go can be nil
+	if got == nil {
+		// fatal will stop the test if it's called.
+		t.Fatal("wanted an error but didnt' get one")
+	}
+
+	if got.Error() != want {
+		t.Errorf("got %q want %q", got.Error(), want)
+	}
 }
