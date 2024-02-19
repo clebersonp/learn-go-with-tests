@@ -64,3 +64,7 @@ func (d Dictionary) Update(key, newValue string) error {
 	}
 	return nil
 }
+
+func (d Dictionary) Delete(key string) {
+
+}
