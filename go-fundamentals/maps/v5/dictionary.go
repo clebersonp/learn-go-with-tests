@@ -4,10 +4,17 @@ import "errors"
 
 type Dictionary map[string]string
 
-var (
-	ErrNotFound  = errors.New("could not find the key you were looking for")
-	ErrKeyExists = errors.New("cannot add key because it already exists")
+const (
+	ErrNotFound  = DictionaryErr("could not find the key you were looking for")
+	ErrKeyExists = DictionaryErr("cannot add key because it already exists")
 )
+
+type DictionaryErr string
+
+// Error is an implementation of error interface
+func (e DictionaryErr) Error() string {
+	return string(e) // convert DictionaryErr to its underlying type string
+}
 
 func (d Dictionary) Search(key string) (value string, err error) {
 	// map can return 2 values. the first is the value and the second is a boolean which indicates if the key
