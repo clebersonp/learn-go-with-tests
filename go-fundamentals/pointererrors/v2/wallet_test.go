@@ -20,7 +20,8 @@ func TestWallet(t *testing.T) {
 	// to access this wallet address in memory we use symbol '&' in front of a wallet.
 	fmt.Printf("address of balance in test is %p \n", &wallet.balance)
 
-	want := 10
+	// To create and instantiate a custom int type like: CustomType(value)
+	want := Bitcoin(10)
 
 	// assertion
 	if got != want {
