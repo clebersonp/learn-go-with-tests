@@ -20,14 +20,26 @@ func TestSearch(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	// initialize an empty map
-	dictionary := Dictionary{}
-	key := "test"
-	want := "this is just a test"
+	t.Run("new word", func(t *testing.T) {
+		// initialize an empty map
+		dictionary := Dictionary{}
+		key := "test"
+		want := "this is just a test"
 
-	dictionary.Add(key, want)
+		err := dictionary.Add(key, want)
 
-	assertDefinition(t, dictionary, key, want)
+		assertError(t, err, nil)
+		assertDefinition(t, dictionary, key, want)
+	})
+	t.Run("existing word", func(t *testing.T) {
+		key := "test"
+		want := "this is just a test"
+		dictionary := Dictionary{key: want}
+
+		err := dictionary.Add(key, "new test")
+		assertError(t, err, ErrKeyExists)
+		assertDefinition(t, dictionary, key, want)
+	})
 }
 
 func assertDefinition(t testing.TB, dictionary Dictionary, key, want string) {
