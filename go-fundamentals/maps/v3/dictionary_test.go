@@ -16,6 +16,7 @@ func TestSearch(t *testing.T) {
 		if err == nil {
 			t.Fatal("expected to get an error")
 		}
+		assertStrings(t, err.Error(), want)
 	})
 }
 
