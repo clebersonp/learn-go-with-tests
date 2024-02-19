@@ -17,6 +17,10 @@ func (d Dictionary) Search(key string) (value string, err error) {
 	return d[key], nil
 }
 
+// Add - We can modify a map without passing as an address pointer (&dictionary)
+// So when you pass a map to a function/method, you are indeed copying it, but just the pointer part
+// Map can be nil value. A nil map behaves like an empty map when READING.
+// But attempts to write a nil map will cause a runtime panic
 func (d Dictionary) Add(key, value string) {
 	d[key] = value
 }
