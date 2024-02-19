@@ -1,6 +1,9 @@
 package v4
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // Bitcoin is a custom type from existing int type.
 // It's more descriptive
@@ -23,6 +26,11 @@ func (w *Wallet) Balance() Bitcoin {
 }
 
 func (w *Wallet) WithDraw(amount Bitcoin) error {
+	if amount > w.balance {
+		// errors.New creates a new error with a custom message
+		return errors.New("oh no")
+	}
+
 	w.balance -= amount
 	return nil
 }
