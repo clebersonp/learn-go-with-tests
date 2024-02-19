@@ -31,6 +31,7 @@ func TestWallet(t *testing.T) {
 		err := wallet.WithDraw(Bitcoin(15))
 		assertBalance(t, wallet, startingBalance)
 
+		// nil is synonymous with null from other programming languages.
 		if err == nil {
 			t.Error("wanted an error but didnt' get one")
 		}
