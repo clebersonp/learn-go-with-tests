@@ -24,4 +24,15 @@ func TestWallet(t *testing.T) {
 		wallet.WithDraw(Bitcoin(10))
 		assertBalance(t, wallet, Bitcoin(10))
 	})
+	t.Run("withdraw insufficient funds", func(t *testing.T) {
+		startingBalance := Bitcoin(10)
+		wallet := Wallet{balance: startingBalance}
+		// in Go to indicate an error it is idiomatic to function return an err to check and act on.
+		err := wallet.WithDraw(Bitcoin(15))
+		assertBalance(t, wallet, startingBalance)
+
+		if err == nil {
+			t.Error("wanted an error but didnt' get one")
+		}
+	})
 }
