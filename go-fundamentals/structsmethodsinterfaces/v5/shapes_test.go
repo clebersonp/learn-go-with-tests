@@ -36,6 +36,10 @@ func TestArea(t *testing.T) {
 			shape: Circle{Radius: 10.0},
 			want:  314.1592653589793,
 		},
+		{
+			shape: Triangle{12.0, 6.0},
+			want:  36.0,
+		},
 	}
 
 	for _, table := range areaTableTest {
