@@ -66,5 +66,6 @@ func (d Dictionary) Update(key, newValue string) error {
 }
 
 func (d Dictionary) Delete(key string) {
-
+	// delete is built-in function
+	delete(d, key)
 }
