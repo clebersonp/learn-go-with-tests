@@ -11,6 +11,11 @@ type Circle struct {
 	Radius float64
 }
 
+type Triangle struct {
+	Base   float64
+	Height float64
+}
+
 // Shape - declared an interface of shapes
 // automatically Go bind all structs that are following the same contract (signature method) from interface,
 // and the concrete type will automatically implement that
