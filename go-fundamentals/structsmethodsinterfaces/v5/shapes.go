@@ -42,3 +42,7 @@ func (c Circle) Area() float64 {
 	// Area = π × r^2
 	return math.Pi * math.Pow(c.Radius, 2)
 }
+
+func (t Triangle) Area() float64 {
+	return 0
+}
