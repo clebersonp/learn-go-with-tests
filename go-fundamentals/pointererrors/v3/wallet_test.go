@@ -1,31 +1,32 @@
 package v3
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestWallet(t *testing.T) {
-	// create an empty wallet
-	wallet := Wallet{}
+	t.Run("deposit", func(t *testing.T) {
+		wallet := Wallet{}
 
-	// put amount into wallet
-	wallet.Deposit(10)
+		wallet.Deposit(Bitcoin(10))
 
-	// return the current wallet amount
-	got := wallet.Balance()
+		got := wallet.Balance()
+		want := Bitcoin(10)
 
-	// In Go, when you call a function or a method the arguments are copied
-	// When calling func (w Wallet) Deposit(amount int) the w is a copy this wallet
-	// to access this wallet address in memory we use symbol '&' in front of a wallet.
-	fmt.Printf("address of balance in test is %p \n", &wallet.balance)
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	})
+	t.Run("withdraw", func(t *testing.T) {
+		wallet := Wallet{balance: Bitcoin(20)}
 
-	// To create and instantiate a custom int type like: CustomType(value)
-	want := Bitcoin(11)
+		wallet.WithDraw(Bitcoin(10))
 
-	// assertion
-	if got != want {
-		// changed %d (underling int type) to %q or %s to user String override method on Bitcoin
-		t.Errorf("got %q want %q", got, want)
-	}
+		got := wallet.Balance()
+		want := Bitcoin(10)
+
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	})
 }
