@@ -5,8 +5,9 @@ import "errors"
 type Dictionary map[string]string
 
 const (
-	ErrNotFound  = DictionaryErr("could not find the key you were looking for")
-	ErrKeyExists = DictionaryErr("cannot add key because it already exists")
+	ErrNotFound        = DictionaryErr("could not find the key you were looking for")
+	ErrKeyExists       = DictionaryErr("cannot add key because it already exists")
+	ErrKeyDoesNotExist = DictionaryErr("cannot update key because it does not exist")
 )
 
 type DictionaryErr string
@@ -51,6 +52,15 @@ func (d Dictionary) Add(key, value string) error {
 	return nil
 }
 
-func (d Dictionary) Update(key, newValue string) {
-	d[key] = newValue
+func (d Dictionary) Update(key, newValue string) error {
+	_, err := d.Search(key)
+	switch {
+	case errors.Is(err, ErrNotFound):
+		return ErrKeyDoesNotExist // almost the same ErrNotFound but it's more descriptive for update operation
+	case err == nil:
+		d[key] = newValue
+	default:
+		return err
+	}
+	return nil
 }
