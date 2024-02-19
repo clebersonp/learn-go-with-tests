@@ -6,6 +6,13 @@ import "fmt"
 // It's more descriptive
 type Bitcoin int
 
+// String method override type Stringer interface
+// It lets us define how type is printed when used with the %s format string in prints.
+// It likes toString() in java
+func (b Bitcoin) String() string {
+	return fmt.Sprintf("%d BTC", b)
+}
+
 type Wallet struct {
 	// with lower case we are restricting its visibility, so balance property is private outside the package
 	// to access its value we use Balance method to do that

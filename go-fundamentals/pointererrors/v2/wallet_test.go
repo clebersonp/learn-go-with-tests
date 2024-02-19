@@ -21,10 +21,11 @@ func TestWallet(t *testing.T) {
 	fmt.Printf("address of balance in test is %p \n", &wallet.balance)
 
 	// To create and instantiate a custom int type like: CustomType(value)
-	want := Bitcoin(10)
+	want := Bitcoin(11)
 
 	// assertion
 	if got != want {
-		t.Errorf("got %d want %d", got, want)
+		// changed %d (underling int type) to %q or %s to user String override method on Bitcoin
+		t.Errorf("got %q want %q", got, want)
 	}
 }
