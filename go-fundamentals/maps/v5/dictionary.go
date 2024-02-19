@@ -4,7 +4,10 @@ import "errors"
 
 type Dictionary map[string]string
 
-var ErrNotFound = errors.New("could not find the key you were looking for")
+var (
+	ErrNotFound  = errors.New("could not find the key you were looking for")
+	ErrKeyExists = errors.New("cannot add key because it already exists")
+)
 
 func (d Dictionary) Search(key string) (value string, err error) {
 	// map can return 2 values. the first is the value and the second is a boolean which indicates if the key
@@ -28,6 +31,7 @@ func (d Dictionary) Search(key string) (value string, err error) {
 // make is a built-in function in Go to create things
 // Both approaches create an empty hash map and point dictionary at it. Which ensures that you will never get a runtime
 // panic
-func (d Dictionary) Add(key, value string) {
+func (d Dictionary) Add(key, value string) error {
 	d[key] = value
+	return nil
 }
