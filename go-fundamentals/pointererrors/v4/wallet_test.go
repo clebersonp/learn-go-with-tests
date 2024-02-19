@@ -32,6 +32,8 @@ func TestWallet(t *testing.T) {
 		assertBalance(t, wallet, startingBalance)
 
 		// nil is synonymous with null from other programming languages.
+		// and it can be nil because it's an error interface.
+		// interface in Go can be nil
 		if err == nil {
 			t.Error("wanted an error but didnt' get one")
 		}
