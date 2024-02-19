@@ -52,5 +52,5 @@ func (d Dictionary) Add(key, value string) error {
 }
 
 func (d Dictionary) Update(key, newValue string) {
-
+	d[key] = newValue
 }
