@@ -1,14 +1,22 @@
-package v2
+package v3
 
 import "testing"
 
 func TestSearch(t *testing.T) {
-
-	key := "tests"
-	dictionary := Dictionary{key: "this is just a test"}
-	got := dictionary.Search(key)
-	want := "this is just a test"
-	assertStrings(t, got, want)
+	correctKey := "test"
+	dictionary := Dictionary{correctKey: "this is just a test"}
+	t.Run("known key", func(t *testing.T) {
+		got, _ := dictionary.Search(correctKey)
+		want := "this is just a test"
+		assertStrings(t, got, want)
+	})
+	t.Run("unknown key", func(t *testing.T) {
+		_, err := dictionary.Search("unknown")
+		want := "could not find the key you were looking for"
+		if err == nil {
+			t.Fatal("expected to get an error")
+		}
+	})
 }
 
 func assertStrings(t testing.TB, got, want string) {
