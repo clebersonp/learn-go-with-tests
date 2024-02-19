@@ -42,6 +42,17 @@ func TestAdd(t *testing.T) {
 	})
 }
 
+func TestUpdate(t *testing.T) {
+	key := "test"
+	value := "this is just a test"
+	dictionary := Dictionary{key: value}
+	newValue := "new definition"
+
+	dictionary.Update(key, newValue)
+
+	assertDefinition(t, dictionary, key, newValue)
+}
+
 func assertDefinition(t testing.TB, dictionary Dictionary, key, want string) {
 	t.Helper()
 	got, err := dictionary.Search(key)
