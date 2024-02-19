@@ -12,6 +12,10 @@ func TestWallet(t *testing.T) {
 	})
 	t.Run("withdraw", func(t *testing.T) {
 		wallet := Wallet{balance: Bitcoin(20)}
+		// run go linter called errcheck in terminal to check errors that missing error handling
+		// to install: go install github.com/kisielk/errcheck@latest
+		// to use it inside a folder: errcheck .
+		// errcheck is a program for checking for unchecked errors in Go code.
 		wallet.WithDraw(Bitcoin(10))
 		assertBalance(t, wallet, Bitcoin(10))
 	})
