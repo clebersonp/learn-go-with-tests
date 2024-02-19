@@ -11,6 +11,13 @@ type Circle struct {
 	Radius float64
 }
 
+// Shape - declared an interface of shapes
+// automatically Go bind all structs that are following the same contract (signature method) from interface,
+// and the concrete type will automatically implement that
+type Shape interface {
+	Area() float64
+}
+
 func Perimeter(rec Rectangle) float64 {
 	return 2 * (rec.Width + rec.Height)
 }
