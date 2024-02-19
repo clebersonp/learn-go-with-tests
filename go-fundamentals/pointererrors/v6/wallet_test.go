@@ -16,7 +16,8 @@ func TestWallet(t *testing.T) {
 		// to install: go install github.com/kisielk/errcheck@latest
 		// to use it inside a folder: errcheck .
 		// errcheck is a program for checking for unchecked errors in Go code.
-		wallet.WithDraw(Bitcoin(10))
+		err := wallet.WithDraw(Bitcoin(10))
+		assertNoError(t, err)
 		assertBalance(t, wallet, Bitcoin(10))
 	})
 	t.Run("withdraw insufficient funds", func(t *testing.T) {
@@ -34,6 +35,13 @@ func assertBalance(t testing.TB, wallet Wallet, want Bitcoin) {
 	got := wallet.Balance()
 	if got != want {
 		t.Errorf("got %q want %q", got, want)
+	}
+}
+
+func assertNoError(t testing.TB, got error) {
+	t.Helper()
+	if got != nil {
+		t.Fatal("got an error but didn't want one")
 	}
 }
 
