@@ -23,5 +23,5 @@ func (w *Wallet) Balance() Bitcoin {
 }
 
 func (w *Wallet) WithDraw(amount Bitcoin) {
-
+	w.balance -= amount
 }
