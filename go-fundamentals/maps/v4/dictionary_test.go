@@ -20,17 +20,24 @@ func TestSearch(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
+	// initialize an empty map
 	dictionary := Dictionary{}
 	key := "test"
 	want := "this is just a test"
+
 	dictionary.Add(key, want)
 
+	assertDefinition(t, dictionary, key, want)
+}
+
+func assertDefinition(t testing.TB, dictionary Dictionary, key, want string) {
+	t.Helper()
 	got, err := dictionary.Search(key)
 	if err != nil {
 		t.Fatal("should find added key:", err)
 	}
-
 	assertStrings(t, got, want)
+
 }
 
 func assertStrings(t testing.TB, got, want string) {
