@@ -15,10 +15,13 @@ func Perimeter(rec Rectangle) float64 {
 	return 2 * (rec.Width + rec.Height)
 }
 
-func Area(rec Rectangle) float64 {
+func (rec Rectangle) Area() float64 {
 	return rec.Width * rec.Height
 }
 
-func Area(circle Circle) float64 {
-	return circle * math.Pi
+// Area - func (receiver type) name(...parameters type) return type {}
+// This is a method of circle instance type
+func (circle Circle) Area() float64 {
+	// Area = π × r^2
+	return math.Pi * math.Pow(circle.Radius, 2)
 }
