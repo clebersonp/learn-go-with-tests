@@ -6,6 +6,16 @@ import (
 
 func TestWallet(t *testing.T) {
 
+	assertError := func(t testing.TB, err error) {
+		t.Helper()
+		// nil is synonymous with null from other programming languages.
+		// and it can be nil because it's an error interface.
+		// interface in Go can be nil
+		if err == nil {
+			t.Error("wanted an error but didnt' get one")
+		}
+	}
+
 	assertBalance := func(t testing.TB, wallet Wallet, want Bitcoin) {
 		t.Helper()
 		got := wallet.Balance()
@@ -29,13 +39,7 @@ func TestWallet(t *testing.T) {
 		wallet := Wallet{balance: startingBalance}
 		// in Go to indicate an error it is idiomatic to function return an err to check and act on.
 		err := wallet.WithDraw(Bitcoin(15))
+		assertError(t, err)
 		assertBalance(t, wallet, startingBalance)
-
-		// nil is synonymous with null from other programming languages.
-		// and it can be nil because it's an error interface.
-		// interface in Go can be nil
-		if err == nil {
-			t.Error("wanted an error but didnt' get one")
-		}
 	})
 }
