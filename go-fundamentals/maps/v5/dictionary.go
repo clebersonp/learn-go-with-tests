@@ -32,6 +32,14 @@ func (d Dictionary) Search(key string) (value string, err error) {
 // Both approaches create an empty hash map and point dictionary at it. Which ensures that you will never get a runtime
 // panic
 func (d Dictionary) Add(key, value string) error {
-	d[key] = value
+	_, err := d.Search(key)
+	switch {
+	case errors.Is(err, ErrNotFound):
+		d[key] = value
+	case err == nil:
+		return ErrKeyExists
+	default:
+		return err
+	}
 	return nil
 }
