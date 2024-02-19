@@ -22,6 +22,7 @@ func (w *Wallet) Balance() Bitcoin {
 	return w.balance
 }
 
-func (w *Wallet) WithDraw(amount Bitcoin) {
+func (w *Wallet) WithDraw(amount Bitcoin) error {
 	w.balance -= amount
+	return nil
 }
