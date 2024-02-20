@@ -22,6 +22,10 @@ type ConfigurableSleeper struct {
 	sleep    func(time.Duration) // sleep is a variable that holds a reference to a function
 }
 
+func (s *ConfigurableSleeper) Sleep() {
+	s.sleep(s.duration)
+}
+
 func Countdown(out io.Writer, sleeper Sleeper) {
 	for i := countdownStart; i > 0; i-- {
 		fmt.Fprintln(out, i)
