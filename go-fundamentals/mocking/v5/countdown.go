@@ -3,6 +3,7 @@ package v5
 import (
 	"fmt"
 	"io"
+	"time"
 )
 
 const (
@@ -13,6 +14,12 @@ const (
 // Sleeper - custom interface type
 type Sleeper interface {
 	Sleep()
+}
+
+// ConfigurableSleeper - we can adjust the sleep time
+type ConfigurableSleeper struct {
+	duration time.Duration
+	sleep    func(time.Duration) // sleep is a variable that holds a reference to a function
 }
 
 func Countdown(out io.Writer, sleeper Sleeper) {
