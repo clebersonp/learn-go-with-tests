@@ -7,7 +7,10 @@ import (
 
 func TestGreet(t *testing.T) {
 	buffer := bytes.Buffer{}
-	Greet(&buffer, "Chris")
+	_, err := Greet(&buffer, "Chris")
+	if err != nil {
+		t.Fatal("failed write message to the buffer")
+	}
 
 	got := buffer.String()
 	want := "Hello, Chris"

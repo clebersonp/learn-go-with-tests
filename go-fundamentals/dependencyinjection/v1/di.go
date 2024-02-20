@@ -5,6 +5,6 @@ import (
 	"io"
 )
 
-func Greet(writer io.Writer, name string) {
-	fmt.Fprintf(writer, "Hello, %s", name)
+func Greet(writer io.Writer, name string) (bytes int, err error) {
+	return fmt.Fprintf(writer, "Hello, %s", name)
 }
