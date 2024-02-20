@@ -1,10 +1,10 @@
 package v1
 
 import (
-	"bytes"
 	"fmt"
+	"io"
 )
 
-func Greet(writer *bytes.Buffer, name string) {
+func Greet(writer io.Writer, name string) {
 	fmt.Fprintf(writer, "Hello, %s", name)
 }
