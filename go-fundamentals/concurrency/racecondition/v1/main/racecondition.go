@@ -44,10 +44,10 @@ func main() {
 		}()
 	}
 
+	// communicate the main process (GoRoutine) that it need to wait for all go routines done
+	wg.Wait()
+
 	fmt.Println("============After=============")
 	fmt.Println("GoRoutines:", runtime.NumGoroutine())
 	fmt.Println("Counter:", counter)
-
-	// communicate the main process (GoRoutine) that it need to wait for all go routines done
-	wg.Wait()
 }
