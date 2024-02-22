@@ -34,10 +34,12 @@ func converge(a, b chan string) chan string {
 	convergence := make(chan string)
 	go func() {
 		for {
-			select {
-			case convergence <- <-a: // receive from channel a and send to convergence channel
-			case convergence <- <-b: // receive from channel b and send to convergence channel
-			}
+			convergence <- <-a
+		}
+	}()
+	go func() {
+		for {
+			convergence <- <-b
 		}
 	}()
 	return convergence
