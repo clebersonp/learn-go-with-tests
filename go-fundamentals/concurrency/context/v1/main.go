@@ -34,7 +34,7 @@ func main() {
 	fmt.Println("num goroutines\t2:", runtime.NumGoroutine())
 
 	fmt.Println("about to cancel context")
-	cancel() // a signal will be sent to <-context.Done() in select statement and application will be finished
+	cancel() // a signal will be sent to <-context.Done() in select statement and goroutine will be finished
 	fmt.Println("cancelled context")
 
 	time.Sleep(2 * time.Second)
