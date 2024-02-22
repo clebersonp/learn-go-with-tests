@@ -9,6 +9,7 @@ func main() {
 
 func f() {
 	defer func() {
+		// recover() will be executed if any panic occur
 		if r := recover(); r != nil {
 			fmt.Println("Recovered in f", r)
 		}
