@@ -11,7 +11,7 @@ import (
 func TestRacer(t *testing.T) {
 
 	// start a test server to simulate a response with delay
-	slowServer := makeDelayedServer(15 * time.Millisecond)
+	slowServer := makeDelayedServer(5 * time.Millisecond)
 	// start a test server to simulate the faster response without delay
 	fastServer := makeDelayedServer(0 * time.Millisecond)
 
