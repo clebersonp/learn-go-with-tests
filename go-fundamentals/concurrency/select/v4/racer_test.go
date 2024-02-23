@@ -32,17 +32,14 @@ func TestRacer(t *testing.T) {
 			t.Errorf("got %q want %q", got, want)
 		}
 	})
-	t.Run("returns an error if a server doesn't respond within 10s", func(t *testing.T) {
+	t.Run("returns an error if a server doesn't respond within the specified time", func(t *testing.T) {
 		// start a test server to simulate a response with delay
-		serverA := makeDelayedServer(11 * time.Second)
-		// start a test server to simulate the faster response without delay
-		serverB := makeDelayedServer(12 * time.Second)
+		server := makeDelayedServer(25 * time.Millisecond)
 
 		// defer to close servers at the end of performing this block of code (TestRacer function scope)
-		defer serverA.Close()
-		defer serverB.Close()
+		defer server.Close()
 
-		_, err := Racer(serverA.URL, serverB.URL)
+		_, err := ConfigurableRacer(server.URL, server.URL, 15*time.Millisecond)
 
 		if err == nil {
 			t.Error("expected an error but didn't get one")
