@@ -44,7 +44,7 @@ func diverge(ch1, ch2 chan int) {
 		wg.Add(1)
 		go func(n int) {
 			defer wg.Done()
-			ch2 <- work(i)
+			ch2 <- work(n)
 		}(i)
 	}
 }
