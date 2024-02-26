@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+type Person struct {
+	Name    string
+	Profile Profile
+}
+
+type Profile struct {
+	Age  int
+	City string
+}
+
 func TestWalk(t *testing.T) {
 
 	// table test
@@ -35,6 +45,14 @@ func TestWalk(t *testing.T) {
 				Age  int
 			}{"Chris", 33},
 			ExpectedCalls: []string{"Chris"},
+		},
+		{
+			Name: "nested fields",
+			Input: Person{
+				Name:    "Chris",
+				Profile: Profile{Age: 33, City: "London"},
+			},
+			ExpectedCalls: []string{"Chris", "London"},
 		},
 	}
 
