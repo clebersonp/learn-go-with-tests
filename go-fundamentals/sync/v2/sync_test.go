@@ -5,6 +5,11 @@ import (
 	"testing"
 )
 
+// run in terminal: go vet
+// 'go vet' shows up errors because we are copying Mutex value after first use.
+// doc: A Mutex must not be copied after first use.
+// When we pass our Counter (by value) to assertCounter it will try and create a copy of the mutex
+// To solve this we should pass in a pointer to our Counter instead, so change the signature of assertCounter
 func TestCounter(t *testing.T) {
 	t.Run("incrementing the counter 3 times leaves it at 3", func(t *testing.T) {
 		counter := Counter{}
@@ -12,7 +17,7 @@ func TestCounter(t *testing.T) {
 		counter.Inc()
 		counter.Inc()
 
-		assertCounter(t, counter, 3)
+		assertCounter(t, &counter, 3)
 	})
 	t.Run("it runs concurrently", func(t *testing.T) {
 		wantedCount := 1_000
@@ -38,11 +43,11 @@ func TestCounter(t *testing.T) {
 		// we can be sure all of our goroutines have attempted to Inc the Counter
 		wg.Wait()
 
-		assertCounter(t, counter, wantedCount)
+		assertCounter(t, &counter, wantedCount)
 	})
 }
 
-func assertCounter(t testing.TB, got Counter, want int) {
+func assertCounter(t testing.TB, got *Counter, want int) {
 	t.Helper()
 	if got.value != want {
 		t.Errorf("got %d, want %d", got.value, want)
