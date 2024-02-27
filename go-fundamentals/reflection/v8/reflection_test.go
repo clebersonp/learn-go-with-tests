@@ -2,6 +2,7 @@ package v8
 
 import (
 	"reflect"
+	"slices"
 	"testing"
 )
 
@@ -78,14 +79,6 @@ func TestWalk(t *testing.T) {
 			},
 			ExpectedCalls: []string{"London", "California"},
 		},
-		{
-			Name: "maps",
-			Input: map[string]string{
-				"Cow":   "Moo",
-				"Sheep": "Baa",
-			},
-			ExpectedCalls: []string{"Moo", "Baa"},
-		},
 	}
 
 	for _, test := range cases {
@@ -98,5 +91,28 @@ func TestWalk(t *testing.T) {
 				t.Errorf("got %q, want %q", got, test.ExpectedCalls)
 			}
 		})
+	}
+
+	t.Run("with maps, because it does not guarantee order", func(t *testing.T) {
+		aMap := map[string]string{
+			"Cow":   "Moo",
+			"Sheep": "Baa",
+		}
+
+		var got []string
+		walk(aMap, func(input string) {
+			got = append(got, input)
+		})
+
+		assertContains(t, got, "Moo")
+		assertContains(t, got, "Baa")
+	})
+}
+
+func assertContains(t testing.TB, haystack []string, needle string) {
+	t.Helper()
+	contains := slices.Contains(haystack, needle)
+	if !contains {
+		t.Errorf("expected %v to contain %q but it didn't", haystack, needle)
 	}
 }
