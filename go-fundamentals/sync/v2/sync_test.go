@@ -12,16 +12,16 @@ import (
 // To solve this we should pass in a pointer to our Counter instead, so change the signature of assertCounter
 func TestCounter(t *testing.T) {
 	t.Run("incrementing the counter 3 times leaves it at 3", func(t *testing.T) {
-		counter := Counter{}
+		counter := NewCounter()
 		counter.Inc()
 		counter.Inc()
 		counter.Inc()
 
-		assertCounter(t, &counter, 3)
+		assertCounter(t, counter, 3)
 	})
 	t.Run("it runs concurrently", func(t *testing.T) {
 		wantedCount := 1_000
-		counter := Counter{}
+		counter := NewCounter()
 
 		/*
 			A WaitGroup waits for a collection of goroutines to finish.
@@ -43,7 +43,7 @@ func TestCounter(t *testing.T) {
 		// we can be sure all of our goroutines have attempted to Inc the Counter
 		wg.Wait()
 
-		assertCounter(t, &counter, wantedCount)
+		assertCounter(t, counter, wantedCount)
 	})
 }
 
