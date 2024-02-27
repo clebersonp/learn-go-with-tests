@@ -10,6 +10,8 @@ import (
 // doc: A Mutex must not be copied after first use.
 // When we pass our Counter (by value) to assertCounter it will try and create a copy of the mutex
 // To solve this we should pass in a pointer to our Counter instead, so change the signature of assertCounter
+// Remember to use go vet in your build scripts
+// as it can alert you to some subtle bugs in your code before they hit your poor users
 func TestCounter(t *testing.T) {
 	t.Run("incrementing the counter 3 times leaves it at 3", func(t *testing.T) {
 		counter := NewCounter()
