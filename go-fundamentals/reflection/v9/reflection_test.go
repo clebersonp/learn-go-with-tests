@@ -114,6 +114,7 @@ func TestWalk(t *testing.T) {
 		go func() {
 			aChannel <- Profile{33, "Berlin"}
 			aChannel <- Profile{34, "London"}
+			close(aChannel)
 		}()
 
 		var got []string
