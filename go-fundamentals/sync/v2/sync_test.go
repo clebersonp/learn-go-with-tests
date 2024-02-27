@@ -18,6 +18,12 @@ func TestCounter(t *testing.T) {
 		wantedCount := 1_000
 		counter := Counter{}
 
+		/*
+			A WaitGroup waits for a collection of goroutines to finish.
+			The main goroutine calls Add to set the number of goroutines to wait for.
+			Then each of the goroutines runs and calls Done when finished.
+			At the same time, Wait can be used to block until all goroutines have finished.
+		*/
 		var wg sync.WaitGroup
 		wg.Add(wantedCount)
 
@@ -27,6 +33,9 @@ func TestCounter(t *testing.T) {
 				wg.Done()
 			}()
 		}
+
+		// By waiting for wg.Wait() to finish before making our assertions
+		// we can be sure all of our goroutines have attempted to Inc the Counter
 		wg.Wait()
 
 		assertCounter(t, counter, wantedCount)
