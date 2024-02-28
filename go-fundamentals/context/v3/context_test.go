@@ -2,6 +2,7 @@ package v3
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -11,7 +12,8 @@ import (
 
 func Server(store Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
+		data, _ := store.Fetch(r.Context())
+		fmt.Fprint(w, data)
 	}
 }
 
