@@ -11,7 +11,20 @@ import (
 
 func Server(store Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, store.Fetch())
+		ctx := r.Context()
+
+		data := make(chan string, 1)
+
+		go func() {
+			data <- store.Fetch()
+		}()
+
+		select {
+		case d := <-data:
+			fmt.Fprint(w, d)
+		case <-ctx.Done():
+			store.Cancel()
+		}
 	}
 }
 
@@ -35,9 +48,10 @@ func (s *SpyStore) Cancel() {
 }
 
 func TestServer(t *testing.T) {
-	t.Run("without cancel signal", func(t *testing.T) {
+	t.Run("returns data from store", func(t *testing.T) {
 		data := "hello, world"
-		srv := Server(&SpyStore{response: data})
+		store := &SpyStore{response: data}
+		srv := Server(store)
 
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
 		response := httptest.NewRecorder()
@@ -47,6 +61,10 @@ func TestServer(t *testing.T) {
 		resp := response.Body.String()
 		if resp != data {
 			t.Errorf("got %q, want %q", resp, data)
+		}
+
+		if store.cancelled {
+			t.Errorf("it should not have cancelled the store")
 		}
 	})
 	t.Run("tells store to cancel work if request is cancelled", func(t *testing.T) {
