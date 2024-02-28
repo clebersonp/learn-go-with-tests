@@ -13,7 +13,11 @@ import (
 
 func Server(store Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		data, _ := store.Fetch(r.Context())
+		data, err := store.Fetch(r.Context())
+		if err != nil {
+			log.Println(err)
+			return
+		}
 		fmt.Fprint(w, data)
 	}
 }
