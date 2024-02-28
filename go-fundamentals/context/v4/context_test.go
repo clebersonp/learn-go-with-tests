@@ -2,6 +2,7 @@ package v4
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -54,6 +55,26 @@ func (s *SpyStore) Fetch(ctx context.Context) (string, error) {
 	}
 }
 
+// we need to test that we do not write any kind of response on the error case.
+// httptest.ResponseRecorder doesn't have a way of figuring this out, so we'll have to roll our own spy to test for this
+type SpyResponseWriter struct {
+	written bool
+}
+
+func (s *SpyResponseWriter) Header() http.Header {
+	s.written = true
+	return nil
+}
+
+func (s *SpyResponseWriter) Write([]byte) (int, error) {
+	s.written = true
+	return 0, errors.New("not implemented")
+}
+
+func (s *SpyResponseWriter) WriteHeader(statusCode int) {
+	s.written = true
+}
+
 func TestServer(t *testing.T) {
 	t.Run("returns data from store", func(t *testing.T) {
 		data := "hello, world"
@@ -71,7 +92,7 @@ func TestServer(t *testing.T) {
 		}
 
 	})
-	/*t.Run("tells store to cancel work if request is cancelled", func(t *testing.T) {
+	t.Run("tells store to cancel work if request is cancelled", func(t *testing.T) {
 		data := "hello, world"
 		store := &SpyStore{response: data, t: t}
 		srv := Server(store)
@@ -83,10 +104,12 @@ func TestServer(t *testing.T) {
 		time.AfterFunc(5*time.Millisecond, cancelFunc)
 		request = request.WithContext(ctx)
 
-		response := httptest.NewRecorder()
+		response := &SpyResponseWriter{}
 
 		srv.ServeHTTP(response, request)
 
-
-	})*/
+		if response.written {
+			t.Error("a response should not hava been written")
+		}
+	})
 }
