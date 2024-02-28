@@ -36,6 +36,7 @@ type Store interface {
 type SpyStore struct {
 	response  string
 	cancelled bool
+	t         *testing.T
 }
 
 func (s *SpyStore) Fetch() string {
@@ -47,10 +48,24 @@ func (s *SpyStore) Cancel() {
 	s.cancelled = true
 }
 
+func (s *SpyStore) assertWasCancelled() {
+	s.t.Helper()
+	if !s.cancelled {
+		s.t.Error("store was not told to cancel")
+	}
+}
+
+func (s *SpyStore) assertWasNotCancelled() {
+	s.t.Helper()
+	if s.cancelled {
+		s.t.Error("store was told to cancel")
+	}
+}
+
 func TestServer(t *testing.T) {
 	t.Run("returns data from store", func(t *testing.T) {
 		data := "hello, world"
-		store := &SpyStore{response: data}
+		store := &SpyStore{response: data, t: t}
 		srv := Server(store)
 
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
@@ -63,17 +78,16 @@ func TestServer(t *testing.T) {
 			t.Errorf("got %q, want %q", resp, data)
 		}
 
-		if store.cancelled {
-			t.Errorf("it should not have cancelled the store")
-		}
+		store.assertWasNotCancelled()
 	})
 	t.Run("tells store to cancel work if request is cancelled", func(t *testing.T) {
 		data := "hello, world"
-		store := &SpyStore{response: data}
+		store := &SpyStore{response: data, t: t}
 		srv := Server(store)
 
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
 
+		// One of the main points of context is that it is a consistent way of offering cancellation.
 		ctx, cancelFunc := context.WithCancel(request.Context())
 		time.AfterFunc(5*time.Millisecond, cancelFunc)
 		request = request.WithContext(ctx)
@@ -82,9 +96,6 @@ func TestServer(t *testing.T) {
 
 		srv.ServeHTTP(response, request)
 
-		if !store.cancelled {
-			t.Errorf("store was not told to cancel")
-		}
-
+		store.assertWasCancelled()
 	})
 }
