@@ -58,7 +58,9 @@ func TestConvertToRoman(t *testing.T) {
 		{Description: "49 gets converted to XLIX", Arabic: 49, Want: "XLIX"},
 		{Description: "50 gets converted to L", Arabic: 50, Want: "L"},
 		{Description: "100 gets converted to C", Arabic: 100, Want: "C"},
+		{Description: "400 gets converted to CD", Arabic: 400, Want: "CD"},
 		{Description: "500 gets converted to D", Arabic: 500, Want: "D"},
+		{Description: "900 gets converted to CM", Arabic: 900, Want: "CM"},
 		{Description: "1000 gets converted to M", Arabic: 1000, Want: "M"},
 	}
 	for _, test := range cases {
