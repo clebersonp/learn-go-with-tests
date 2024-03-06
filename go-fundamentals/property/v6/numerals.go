@@ -2,28 +2,28 @@ package v6
 
 import "strings"
 
+type RomanNumeral struct {
+	Value  int
+	Symbol string
+}
+
+var allRomanNumerals = []RomanNumeral{
+	{Value: 10, Symbol: "X"},
+	{Value: 9, Symbol: "IX"},
+	{Value: 5, Symbol: "V"},
+	{Value: 4, Symbol: "IV"},
+	{Value: 1, Symbol: "I"},
+}
+
 // ConvertToRoman converts an integer to a roman numeral
 func ConvertToRoman(arabic int) string {
 
 	var result strings.Builder
 
-	for arabic > 0 {
-		switch {
-		case arabic > 9:
-			result.WriteString("X")
-			arabic -= 10
-		case arabic > 8:
-			result.WriteString("IX")
-			arabic -= 9
-		case arabic > 4:
-			result.WriteString("V")
-			arabic -= 5
-		case arabic > 3:
-			result.WriteString("IV")
-			arabic -= 4
-		default:
-			result.WriteString("I")
-			arabic--
+	for _, numeral := range allRomanNumerals {
+		for arabic >= numeral.Value {
+			result.WriteString(numeral.Symbol)
+			arabic -= numeral.Value
 		}
 	}
 
