@@ -16,6 +16,7 @@ func TestConvertToRoman(t *testing.T) {
 		{Description: "7 gets converted to VII", Arabic: 7, Want: "VII"},
 		{Description: "8 gets converted to VIII", Arabic: 8, Want: "VIII"},
 		{Description: "9 gets converted to IX", Arabic: 9, Want: "IX"},
+		{Description: "10 gets converted to X", Arabic: 10, Want: "X"},
 	}
 	for _, test := range cases {
 		t.Run(test.Description, func(t *testing.T) {
