@@ -7,12 +7,15 @@ type RomanNumeral struct {
 	Symbol string
 }
 
+// 1984 : MCMLXXXIV
+
 var allRomanNumerals = []RomanNumeral{
 	{Value: 1000, Symbol: "M"},
 	{Value: 900, Symbol: "CM"},
 	{Value: 500, Symbol: "D"},
 	{Value: 400, Symbol: "CD"},
 	{Value: 100, Symbol: "C"},
+	{Value: 90, Symbol: "XC"},
 	{Value: 50, Symbol: "L"},
 	{Value: 40, Symbol: "XL"},
 	{Value: 10, Symbol: "X"},
