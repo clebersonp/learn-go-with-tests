@@ -39,3 +39,8 @@ func ConvertToRoman(arabic int) string {
 
 	return result.String()
 }
+
+// ConvertToArabic converts a roman numeral to an integer
+func ConvertToArabic(roman string) int {
+	return 1
+}
