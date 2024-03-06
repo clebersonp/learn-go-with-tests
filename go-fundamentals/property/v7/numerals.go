@@ -43,13 +43,10 @@ func ConvertToRoman(arabic int) string {
 // ConvertToArabic converts a roman numeral to an integer
 func ConvertToArabic(roman string) int {
 
-	if roman == "III" {
-		return 3
+	total := 0
+	for range roman {
+		total++
 	}
 
-	if roman == "II" {
-		return 2
-	}
-
-	return 1
+	return total
 }
